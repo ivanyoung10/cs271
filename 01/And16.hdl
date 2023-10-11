@@ -14,4 +14,7 @@ CHIP And16 {
 
     PARTS:
     // Put your code here:
+	Nand(in=a out=nandA)
+	Nand(in=b out=nandB)
+	
 }
