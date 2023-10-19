@@ -14,4 +14,17 @@ CHIP FullAdder {
 
     PARTS:
     // Put you code here:
+	Xor(a=a, b=b, out=firstXor);
+	Xor(a=firstXor, b=c, out=sum);
+	And(a=a, b=b, out=firstAnd);
+	And(a=c, b=firstXor, out=secondAnd);
+	Or(a=firstAnd, b=secondAnd, out=carry);
+	
 }
+
+//Ivan Young
+//Used first Xor to see if a+b needs carry bit on sum path
+//Used second Xor to see if a+b or b+c needs carry bit on sum path
+//Used first And to check Carry bit on a and b on carry path
+//Used second And to see if carry bits on a and b and c on carry path
+//Used Or bit to see combine the two And outputs to check Carry
