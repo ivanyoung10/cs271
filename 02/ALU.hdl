@@ -44,4 +44,37 @@ CHIP ALU {
     PARTS:
    // Put you code here:
    
+   // Combined nx and zx bits
+   Not16(in=x, out=notx);
+   Mux4Way16(a=x, b=notx, c[0..15]=false, d[00..15]=true, sel[1]=zx, sel[0]=nx, out=xoutput);
+   
+   // Combined ny and zy bits
+   Not16(in=y, out=noty);
+   Mux4Way16(a=y, b=noty, c[0..15]=false, d[0..15]=true, sel[1]=zy, sel[0]=ny, out=youtput);
+   
+
+   // f AND control bit option
+   And16(a=xoutput, b=youtput, out=xANDyoutput);
+   
+   // f ADD control bit option
+   Add16(a=xoutput, b=youtput, out=xADDyoutput);
+   
+   //f control bit
+   Mux16(a=xANDyoutput, b=xADDyoutput, sel=f, out=fcontroloutput);
+   
+   // no control bit
+   Not16(in=fcontroloutput, out=nocontroloutput);
+   
+   // Outputs for out, ng, and start for zr
+   Mux16(a=fcontroloutput, b=nocontroloutput, sel=no, out=out, out[15]=ng, out[0..7]=TopOut, out[8..15]=BottomOut);
+   
+   // zr pin
+   Or8Way(in=TopOut, out=TopOR);
+   Or8Way(in=BottomOut, out=BottomOR);
+   Or(a=TopOR, b=BottomOR, out=OR16Way);
+   Not(in=OR16Way, out=zr);
+   
+   
+   
+   
 }
