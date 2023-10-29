@@ -17,4 +17,8 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
+	Inc16(in=pcout, out=inc);
+	Mux(in=
+	
+	
 }
