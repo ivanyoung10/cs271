@@ -10,8 +10,22 @@
 int main(int argc, const char *argv[])
 {		
 
-	// your code here
-			
+	if (argv[] == 1){
+		FILE *fin = fopen( argv[1], "r")
+		if (*fin == NULL){
+			perror("Unable to open file!");
+			exit(EXIT_FAILURE);
+		}
+		else {
+			fin* = parse()
+			fclose(fin*)
+		}
+	}
+
+	else{
+		printf("Usage: %s [filename]"\n, argv[0]);
+		exit(EXIT_FAILURE);
+	}	
 }
 
 
