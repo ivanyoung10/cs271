@@ -17,8 +17,18 @@ CHIP PC {
 
     PARTS:
     // Put your code here:
-	Inc16(in=pcout, out=inc);
-	Mux(in=
-	
-	
+   Inc16(in=regout,out=increg);
+   // increments the output of the register
+
+	Mux16(a=regout,b=increg,sel=inc,out=firstout);
+    // takes the output and sees if it needs to incremented
+	Mux16(a=firstout,b=in,sel=load,out=secondout);
+    // takes the first output, in, load, to produce the second output
+	Mux16(a=secondout,b[0..15]=false,sel=reset,out=thirdout);
+	// takes the seondoutput and resets the output if reset is set
+	Register(in=thirdout,load=true,out=out,out=regout);
+	// Register that takes the last output and produces the final output and the output for first mux gate
+
 }
+
+
