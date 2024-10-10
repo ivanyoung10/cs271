@@ -11,5 +11,11 @@ CHIP Xor {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    // Did alternate not-ands to check that both bits were not 1
+    // Then did an or at the end to check that both bits were not 0
+    Not(in= a, out= nota);
+    And(a= nota, b= b, out= notaAnd);
+    Not(in=b, out=notb);
+    And(a= a, b= notb, out= notbAnd);
+    Or(a= notaAnd, b= notbAnd, out= out);
 }

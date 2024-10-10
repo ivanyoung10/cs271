@@ -11,5 +11,7 @@ CHIP And {
     OUT out;
     
     PARTS:
-    //// Replace this comment with your code.
+    // Used Logical operation (Not And == And)
+    Nand(a= a, b= b, out= Nandout);
+    Not(in= Nandout, out= out);
 }
