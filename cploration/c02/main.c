@@ -25,9 +25,8 @@
  */
 int length(char* txt) {
 	int len = 0;
-	for (int i = 0; txt[i] == "\0"; i++){
-		i++;
-		len = i;
+	for (int i = 0; txt[i] != '\0'; i++){
+		len++;
 	} 
 	return len;
 }
@@ -50,9 +49,8 @@ char *welcome(char* hello, char* name) {
 	// dynamically allocate a new string
 	char *message = malloc(sizeof(char)*MAX_LIMIT);
 	strcpy(message, hello);
-	char space = " ";
-	char ex_point = "!";
-	scanf("%s", &name);
+	char space[] = " ";
+	char ex_point[] = "!";
 	strcat(message, space);
 	strcat(message, name);
 	strcat(message, ex_point);
@@ -71,12 +69,7 @@ char *welcome(char* hello, char* name) {
  * returns: nothing. result contains the reversed string.
  */
 void reverse(char* txt, char* result) {
-
-	// Seperate string into array
-	// Initialize Pointer 
-	// Start Pointer at end of array
-	// Put charcters into a new array
-	// return result
+	
 
 	
 }
@@ -93,10 +86,16 @@ void reverse(char* txt, char* result) {
  */
 int vowels(char* txt) {
 	int vowel = 0;
-	// vowels list = [A,E,I,O,U, a, e, i, o, u]
-	// pointer to go through list
-	// counter variable
-	// return counter / vowel
+	int length = strlen(txt);
+	char vowels_list[] = {'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
+	// Sorry for bad code :(
+	for (int i=0; i < length; i++){
+		for (int j=0; j < 10; j++){
+			if (txt[i] == vowels_list[j]){
+				vowel++;
+			}
+		}
+	}
 	return vowel;
 }
 
@@ -117,11 +116,37 @@ int vowels(char* txt) {
  */
 int quartile(char* name) {
 
-	// Quarters: 1 - [A-F] Quarter 2: [G-l] Quarter 3: [M-R] Quarter - [4]
-	// strcmp name[0] to every quarter
-	// return quarter number
-	
-	return -1; // <==fix!
+	char quarter_1[] = {'A', 'B', 'C', 'D', 'E', 'F'};
+	// Added a space character to correct Ghandi name with leading space
+	char quarter_2[] = {' ', 'G', 'H', 'I', 'J', 'K', 'L'};
+	char quarter_3[] = {'M', 'N', 'O', 'P', 'Q', 'R'};
+	char quarter_4[] = {'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+	// Sorry for even worse code :(
+	for (int i=0; i <= 6; i++){
+		if (quarter_1[i] == name[0]){
+			return 1;
+		}
+	}
+
+	for (int i=0; i <= 6; i++){
+		if (quarter_2[i] == name[0]){
+			return 2;
+		}
+	}
+
+	for (int i=0; i <= 6; i++){
+		if (quarter_3[i] == name[0]){
+			return 3;
+		}
+	}
+
+	for (int i=0; i <= 8; i++){
+		if (quarter_4[i] == name[0]){
+			return 4;
+		}
+	}
+	return -1;
 }
 
 
