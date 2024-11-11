@@ -8,3 +8,29 @@
 // The algorithm is based on repetitive addition.
 
 //// Replace this comment with your code.
+
+
+// Add R0 to R2 R1 amount of times 
+// 1 - Load in R1 to memory
+@2
+M=0
+@1
+D=M
+@Infinite_loop
+D;JEQ
+(Add_loop)
+@R0
+D=M
+@2
+M=D+M
+@1
+M=M-1
+@1
+D=M
+@Add_loop
+D;JGT
+(Infinite_loop)
+@Infinite_loop
+0;JMP
+
+
