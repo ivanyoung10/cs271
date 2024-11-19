@@ -62,13 +62,12 @@ void parse(FILE * file){
 		}
 		else {
 			if (is_Atype(line)){
-				instr_num++;
 				inst_type = 'A';
 			}
 			else if (is_label(line) == true){
 				inst_type = 'L';
 				strcpy(line, extract_label(line, label));
-				if (!(isalpha(*line))){
+				if (!(isalpha(*label))){
 					exit_program(EXIT_INVALID_LABEL, line_num, line);
 				}
 				if (symtable_find(label) != NULL){
@@ -79,10 +78,11 @@ void parse(FILE * file){
 
 			}
 			else {
-				instr_num++;
 			inst_type = 'C';
 			}
 			printf("%u: %c  %s\n", instr_num, inst_type, line);
+			instr_num++;
+			
 		}
 	}
 	
