@@ -31,6 +31,59 @@ CHIP CPU {
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
 
+
+    // 
     PARTS:
-	//// Replace this comment with your code.
+    // OPCODE [15]
+
+    // JMP bits [0..2]
+    // dest bits [3..5]
+    // writeM [3]
+    // registarA [5]
+    // registarD [4]
+
+    // ALU bits [6..11]
+    // A bit [12]
+    // ignore bits [13..14]
+    // A or M bit [15]
+
+    //Mux 1 logic
+    And(a= instruction[15], b= instruction[5], out= Mux1In);
+    Mux16(a= instruction[0..15], b= ALUout, sel= Mux1In, out= Mux1Out);
+
+    // A register logics
+    Not(in= instruction[15], out= NotOPCODE);
+    Or(a= instruction[5], b= NotOPCODE, out= ARegIn);
+    ARegister(in= Mux1Out, load= ARegIn, out= ARegOut, out[0..14] = addressM);
+
+    // Mux2 logics
+    Mux16(a= ARegOut, b= inM, sel= instruction[12], out= Mux2Out);
+
+    // D register logics
+    And(a= instruction[15], b= instruction[4], out= DRegIn);
+    DRegister(in= ALUout, load= DRegIn, out= DRegOut);
+
+    // ALU
+    ALU(x= DRegOut, y= Mux2Out, zx= instruction[11], nx= instruction[10], zy= instruction[9], ny= instruction[8], f= instruction[7], no= instruction[6], out= ALUout, out= outM, zr= zrout, ng= ngout);
+
+    // JMP logic
+    And(a= ngout, b= instruction[2], out= JMP1Out);
+    And(a= zrout, b= instruction[1], out= JMP2Out);
+    Or(a= ngout, b= zrout, out= ngOrZr);
+    Not(in= ngOrZr, out= JMP3In);
+    And(a= JMP3In, b= instruction[0], out= JMP3Out);
+    Or(a= JMP1Out, b= JMP2Out, out= JMP1Or2);
+    Or(a= JMP3Out, b= JMP1Or2, out= PcJMPIN);
+    And(a= PcJMPIN, b= instruction[15], out= PcJMP);
+
+    //INC Logic
+    Not(in= PcJMP, out= PcINC);
+
+    // PC Logic
+    PC(in= ARegOut, load= PcJMP, inc= PcINC, reset= reset, out[0..14]= pc);
+
+    //Write M logic
+    And(a= instruction[15], b= instruction[3], out= writeM);
+
+    
 }
