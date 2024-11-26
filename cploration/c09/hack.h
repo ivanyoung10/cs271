@@ -53,7 +53,7 @@ typedef struct predefined_symbol {
 static const predefined_symbol predefined_symbols[NUM_PREDEFINED_SYMBOLS] = {
     {"R0", SYM_R0}, 
     {"R1", SYM_R1}, 
-    {"R2", SYM_R1},
+    {"R2", SYM_R2},
     {"R3", SYM_R3},
     {"R4", SYM_R4},
     {"R5", SYM_R5},

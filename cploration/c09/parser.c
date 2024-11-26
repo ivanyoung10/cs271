@@ -1,5 +1,5 @@
 /****************************************
- * C-ploration 8 for CS 271
+ * C-ploration 9 for CS 271
  * 
  * [NAME] $Ivan Young$
  * [TERM] FALL $2024$
@@ -45,6 +45,7 @@ char *strip(char *s){
  */
 void parse(FILE * file){
 	
+	struct instruction instr;
 	char line[MAX_LINE_LENGTH];
 	char inst_type;
 	char label[MAX_LABEL_LENGTH];
@@ -64,6 +65,10 @@ void parse(FILE * file){
 		else {
 			if (is_Atype(line)){
 				inst_type = 'A';
+				if (!parse_A_instruction(line, &instr.a)){
+					exit_program(EXIT_INVALID_A_INSTR, line_num, line);
+				}
+				instr.inst = A;
 			}
 			else if (is_label(line) == true){
 				inst_type = 'L';
@@ -81,7 +86,7 @@ void parse(FILE * file){
 			else {
 			inst_type = 'C';
 			}
-			printf("%u: %c  %s\n", instr_num, inst_type, line);
+			//printf("%u: %c  %s\n", instr_num, inst_type, line);
 			instr_num++;
 			
 		}
@@ -138,11 +143,22 @@ void add_predefined_symbols(){
 
 bool parse_A_instruction(const char *line, struct a_instruction *instr) {
 	char * s;
-	s = (char*) malloc(strlen(line));
+	s = (char *) malloc(strlen(line));
 	strcpy(s, line+1);
 	char * (s_end) = NULL;
 	long result = strtol(s, &s_end, 10);
 	if (s == s_end){
-		operand.label = (char*) malloc(strlen(line));
+		instr->label = (char*) malloc(strlen(line));
+		strcpy(instr->label, s);
+		instr->is_addr = false;
 	}
+	else if (*s_end != 0) {
+		return false;
+	}
+	else {
+		instr->address = result;
+		instr->is_addr = true;
+
+	}
+	return true;
 }
