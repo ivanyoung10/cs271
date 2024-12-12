@@ -82,4 +82,6 @@ void parse_C_instruction(char *line, struct c_instruction *inst);
 
 void assemble(const char * file_name, struct instruction* instructions, int num_instructions);
 
+opcode instruction_to_opcode(struct c_instruction instr);
+
 #endif

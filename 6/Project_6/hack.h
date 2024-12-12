@@ -15,6 +15,8 @@
 
 
 #define NUM_PREDEFINED_SYMBOLS 23
+#define OPCODE_TO_BINARY(opcode) \
+    (opcode & 0x8000 ? '1' : '0'), \
 
 //enums
 enum symbol_id {
