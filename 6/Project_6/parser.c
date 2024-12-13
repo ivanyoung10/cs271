@@ -8,6 +8,7 @@
 #include "parser.h"
 #include "symtable.h"
 #include "error.h"
+#include "hack.h"
 
 int counter = 0;
 /* Function: strip
@@ -225,13 +226,32 @@ void parse_C_instruction(char *line, struct c_instruction *instr) {
 
 void assemble(const char * file_name, struct instruction* instructions, int num_instructions){
 	char * ext;
+	opcode opcode;
 	int i = 0;
 	ext = strcat(file_name, ".hack");
 	FILE * fin = fopen(ext, "r");
 
-	while (i != num_instructions){
-
+	while (i != num_instructions) {
+		struct instruction instr = instructions[i];
+		if (instr.a.label) {
+			if (symtable_find(instr.a.label)){
+				opcode = instr.a.address;
+			}
+			else {
+				symtable_insert(instr.a.label, hash(i));
+				free(instr.a.label);
+			}
+		}
+		else if (instr.a.address) {
+			opcode = instr.a.address;
+		}
+		else {
+			opcode = instruction_to_opcode(instr.c);
+			printf(%c, OPCODE_TO_BINARY(opcode));
+		}
+		i++;
 	}
+	fclose(fin);
 }
 
 opcode instruction_to_opcode(struct c_instruction instr) {
